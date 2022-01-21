@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>Welcome</title>
+</head>
+
+<body>
+    <div class="d-flex justify-content-around align-items-center mt-2 pb-2" style="border-bottom: 2px black solid;">
+        <h1>Message Wall</h1>
+        <h2 class="text-center">Welcome {{ user.first_name }}!!</h2>
+        <a href="/logout">
+            <button class="btn-primary">Logout</button>
+        </a>
+    </div>
+    <div class="d-flex justify-content-around mt-2">
+        <div style='background-color: #343a40' class="p-2">
+            <div class="border-bottom border-warning border-1">
+                <h2 style="color: whitesmoke;">{{ user.count }} message for you</h2>
+            </div>
+            {% if user.count > 0 %}
+                {% for message in user.message %}             
+                    <div class="bg-primary mb-1 p-2">
+                        <h3 class="text-light">{{ message['name'] }} said {{ message['time'] }}:</h3>
+                        <p class="text-light">{{ message.descrip }}</p>
+                        <a href="/delete/{{ message.id }}">
+                            <button class="btn-danger">Delete</button>
+                        </a>
+                    </div>         
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div style='background-color: #343a40' class="p-2">
+            <div class="border-bottom border-warning border-1">
+                <h2 class="text-align-center text-light">Send a message here</h2>
+            </div>
+            {% for one_user in users %}
+                {% if one_user.id != user.id %}
+                    <form action="/sendMessage" method="post">
+                        <label class="form-label text-light">Message to {{ one_user.first_name }}:</label>
+                        <textarea name="descrip" class="form-control"></textarea>
+                        <input type="hidden" name="receiver_id" value="{{ one_user.id }}">
+                        <input type="submit" value="Message" class="btn-warning">
+                    </form>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+</body>
+
+</html>
