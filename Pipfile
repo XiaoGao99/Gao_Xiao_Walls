@@ -8,6 +8,7 @@ flask = "*"
 "flask.bcrypt" = "*"
 pymysql = "*"
 timeago = "*"
+timeout = "*"
 
 [dev-packages]
 
